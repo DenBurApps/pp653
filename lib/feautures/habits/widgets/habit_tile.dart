@@ -131,7 +131,6 @@ class HabitTile extends StatelessWidget {
   void _openEditHabitModal(BuildContext context) {
     var habitProvider = Provider.of<HabitProvider>(context, listen: false);
 
-    // Создаем контроллер для времени
     final TextEditingController _timeController =
         TextEditingController(text: habit.time);
 
@@ -153,115 +152,117 @@ class HabitTile extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Container(
-                    width: 54,
-                    height: 3,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(2),
-                      color: AppColors.greyOnSurface,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Container(
+                      width: 54,
+                      height: 3,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(2),
+                        color: AppColors.greyOnSurface,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Edit Habit',
-                      style: AppTextStyles.modalTitle,
-                    ),
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            _habitName = habit.name;
-                            _habitDescription = habit.description ?? '';
-                            _timeController.text = habit.time;
-                            _habitDate = habit.date;
-                          },
-                          child: Container(
-                            width: 60,
-                            height: 28,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: AppColors.blackBackgroundOnPrimary,
-                              border: Border.all(
-                                  color: AppColors.blackSurface, width: 1),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                "Reset",
-                                style: AppTextStyles.modalButtonText,
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Edit Habit',
+                        style: AppTextStyles.modalTitle,
+                      ),
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              _habitName = habit.name;
+                              _habitDescription = habit.description ?? '';
+                              _timeController.text = habit.time;
+                              _habitDate = habit.date;
+                            },
+                            child: Container(
+                              width: 60,
+                              height: 28,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: AppColors.blackBackgroundOnPrimary,
+                                border: Border.all(
+                                    color: AppColors.blackSurface, width: 1),
                               ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                        GestureDetector(
-                          onTap: () {
-                            habitProvider.updateHabit(
-                              habit.id,
-                              _habitName,
-                              _habitDescription,
-                              _timeController.text, // Сохраняем введенное время
-                              _habitDate!,
-                            );
-
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            width: 58,
-                            height: 28,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
-                            ),
-                            child: const Center(
-                              child: Text(
-                                "Save",
-                                style: TextStyle(
-                                  fontFamily: "SF Pro Display",
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
+                              child: const Center(
+                                child: Text(
+                                  "Reset",
+                                  style: AppTextStyles.modalButtonText,
                                 ),
                               ),
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                FieldBuilder.buildTextField(
-                  'Name of habit',
-                  initialValue: _habitName,
-                  onChanged: (value) => _habitName = value,
-                ),
-                FieldBuilder.buildTextField(
-                  'Description of the habit (optional)',
-                  initialValue: _habitDescription,
-                  onChanged: (value) => _habitDescription = value,
-                ),
-                FieldBuilder.buildMinutesField(
-                  'Time to perform (in minutes)',
-                  controller: _timeController, // Используем контроллер
-                ),
-                FieldBuilder.buildDateField(
-                  context,
-                  'Select a date',
-                  initialValue: _habitDate != null
-                      ? DateFormat('yMMMd').format(_habitDate!)
-                      : 'Select a date',
-                  onDateSelected: (date) => _habitDate = date,
-                ),
-              ],
+                          const SizedBox(width: 4),
+                          GestureDetector(
+                            onTap: () {
+                              habitProvider.updateHabit(
+                                habit.id,
+                                _habitName,
+                                _habitDescription,
+                                _timeController.text,
+                                _habitDate!,
+                              );
+
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              width: 58,
+                              height: 28,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.white,
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  "Save",
+                                  style: TextStyle(
+                                    fontFamily: "SF Pro Display",
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  FieldBuilder.buildTextField(
+                    'Name of habit',
+                    initialValue: _habitName,
+                    onChanged: (value) => _habitName = value,
+                  ),
+                  FieldBuilder.buildTextField(
+                    'Description of the habit (optional)',
+                    initialValue: _habitDescription,
+                    onChanged: (value) => _habitDescription = value,
+                  ),
+                  FieldBuilder.buildMinutesField(
+                    'Time to perform (in minutes)',
+                    controller: _timeController,
+                  ),
+                  FieldBuilder.buildDateField(
+                    context,
+                    'Select a date',
+                    initialValue: _habitDate != null
+                        ? DateFormat('yMMMd').format(_habitDate!)
+                        : 'Select a date',
+                    onDateSelected: (date) => _habitDate = date,
+                  ),
+                ],
+              ),
             ),
           ),
         );

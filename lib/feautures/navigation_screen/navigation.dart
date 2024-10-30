@@ -119,98 +119,100 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Container(
-                    width: 54,
-                    height: 3,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(2),
-                      color: AppColors.greyOnSurface,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Add New Habit',
-                      style: TextStyle(
-                        fontFamily: "SF Pro Display",
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Container(
+                      width: 54,
+                      height: 3,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(2),
+                        color: AppColors.greyOnSurface,
                       ),
                     ),
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: _clearFields,
-                          child: Container(
-                            width: 60,
-                            height: 28,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: AppColors.blackBackgroundOnPrimary,
-                              border: Border.all(
-                                  color: AppColors.blackSurface, width: 1),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                "Clear",
-                                style: TextStyle(
-                                  fontFamily: "SF Pro Display",
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
-                          ),
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Add New Habit',
+                        style: TextStyle(
+                          fontFamily: "SF Pro Display",
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500,
                         ),
-                        const SizedBox(width: 4),
-                        GestureDetector(
-                          onTap: _addHabit,
-                          child: Container(
-                            width: 58,
-                            height: 28,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
-                            ),
-                            child: const Center(
-                              child: Text(
-                                "Done",
-                                style: TextStyle(
-                                  fontFamily: "SF Pro Display",
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
+                      ),
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: _clearFields,
+                            child: Container(
+                              width: 60,
+                              height: 28,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: AppColors.blackBackgroundOnPrimary,
+                                border: Border.all(
+                                    color: AppColors.blackSurface, width: 1),
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  "Clear",
+                                  style: TextStyle(
+                                    fontFamily: "SF Pro Display",
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                FieldBuilder.buildTextField(
-                  'Name of habit',
-                  onChanged: (value) => _habitName = value,
-                ),
-                FieldBuilder.buildTextField(
-                  'Description of the habit (optional)',
-                  onChanged: (value) => _habitDescription = value,
-                ),
-                _buildTimeField('Time to perform (in minutes)'),
-                _buildDateField(context, 'Select a date'),
-              ],
+                          const SizedBox(width: 4),
+                          GestureDetector(
+                            onTap: _addHabit,
+                            child: Container(
+                              width: 58,
+                              height: 28,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.white,
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  "Done",
+                                  style: TextStyle(
+                                    fontFamily: "SF Pro Display",
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  FieldBuilder.buildTextField(
+                    'Name of habit',
+                    onChanged: (value) => _habitName = value,
+                  ),
+                  FieldBuilder.buildTextField(
+                    'Description of the habit (optional)',
+                    onChanged: (value) => _habitDescription = value,
+                  ),
+                  _buildTimeField('Time to perform (in minutes)'),
+                  _buildDateField(context, 'Select a date'),
+                ],
+              ),
             ),
           ),
         );
@@ -219,56 +221,77 @@ class _BottomNavBarState extends State<BottomNavBar> {
   }
 
   Widget _buildDateField(BuildContext context, String labelText) {
-    return GestureDetector(
-      onTap: () {
-        showModalBottomSheet(
-          context: context,
-          backgroundColor: AppColors.blackBackgroundOnPrimary,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          builder: (BuildContext context) {
-            return Container(
-              padding: const EdgeInsets.all(16.0),
-              child: CalendarDatePicker2(
-                config: CalendarDatePicker2Config(
-                  disableModePicker: false,
-                  disableMonthPicker: false,
-                  calendarType: CalendarDatePicker2Type.single,
-                  selectedDayHighlightColor: Colors.white,
-                  weekdayLabelTextStyle: const TextStyle(color: Colors.white),
-                  controlsTextStyle: const TextStyle(color: Colors.white),
-                  dayTextStyle: const TextStyle(color: Colors.white),
-                  selectedDayTextStyle: const TextStyle(color: Colors.black),
-                  yearTextStyle: const TextStyle(color: Colors.white),
-                  monthTextStyle: const TextStyle(color: Colors.white),
+    final TextEditingController _dateController = TextEditingController(
+      text: _habitDate != null ? DateFormat('yMMMd').format(_habitDate!) : '',
+    );
+    bool _isCalendarVisible = false;
+
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter setState) {
+        return Column(
+          children: [
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _isCalendarVisible = !_isCalendarVisible;
+                });
+              },
+              child: AbsorbPointer(
+                child: FieldBuilder.buildTextField(
+                  labelText,
+                  iconPath: "assets/CalendarDots.svg",
+                  isReadOnly: true,
+                  initialValue: _dateController.text.isNotEmpty
+                      ? _dateController.text
+                      : 'Select a date',
                 ),
-                value: _habitDate != null ? [_habitDate!] : [],
-                onValueChanged: (dates) {
-                  if (dates.isNotEmpty && dates[0] != null) {
-                    setState(() {
-                      _habitDate = dates[0];
-                      _dateController.text =
-                          DateFormat('yMMMd').format(_habitDate!);
-                    });
-                    Navigator.pop(context);
-                  }
-                },
               ),
-            );
-          },
+            ),
+            if (_isCalendarVisible)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: AppColors.blackSurface,
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: CalendarDatePicker2(
+                    config: CalendarDatePicker2Config(
+                      disableModePicker: true,
+                      disableMonthPicker: true,
+                      calendarType: CalendarDatePicker2Type.single,
+                      selectedDayHighlightColor: Colors.white,
+                      weekdayLabelTextStyle:
+                          const TextStyle(color: Colors.white),
+                      controlsTextStyle: const TextStyle(color: Colors.white),
+                      dayTextStyle: const TextStyle(color: Colors.white),
+                      selectedDayTextStyle:
+                          const TextStyle(color: Colors.black),
+                      yearTextStyle: const TextStyle(color: Colors.white),
+                      monthTextStyle: const TextStyle(color: Colors.white),
+                      lastMonthIcon: SvgPicture.asset("assets/Arrow_left.svg"),
+                      nextMonthIcon: SvgPicture.asset("assets/Arrow_right.svg"),
+                    ),
+                    value: _habitDate != null ? [_habitDate!] : [],
+                    onValueChanged: (dates) {
+                      if (dates.isNotEmpty && dates[0] != null) {
+                        final selectedDate = dates[0]!;
+                        setState(() {
+                          _habitDate = selectedDate;
+                          _dateController.text =
+                              DateFormat('yMMMd').format(_habitDate!);
+                          _isCalendarVisible = false; // Закрыть календарь
+                        });
+                      }
+                    },
+                  ),
+                ),
+              ),
+          ],
         );
       },
-      child: AbsorbPointer(
-        child: FieldBuilder.buildTextField(
-          labelText,
-          iconPath: "assets/CalendarDots.svg",
-          isReadOnly: true,
-          initialValue: _dateController.text.isNotEmpty
-              ? _dateController.text
-              : 'Select a date',
-        ),
-      ),
     );
   }
 

@@ -203,6 +203,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       children: [
         CalendarDatePicker2(
           config: CalendarDatePicker2Config(
+            lastMonthIcon: SvgPicture.asset("assets/Arrow_left.svg"),
+            nextMonthIcon: SvgPicture.asset("assets/Arrow_right.svg"),
             disableModePicker: true,
             disableMonthPicker: true,
             currentDate: _focusedDate,
@@ -210,13 +212,15 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             selectedDayHighlightColor: Colors.white,
             weekdayLabelTextStyle: const TextStyle(color: Colors.white),
             controlsTextStyle: const TextStyle(color: Colors.white),
-            dayTextStyle: const TextStyle(color: Colors.white),
+            dayTextStyle: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.w400),
             selectedDayTextStyle: const TextStyle(color: Colors.black),
           ),
           onValueChanged: (dates) {
             setState(
               () {
                 _selectedDate = dates.first ?? DateTime.now();
+                _focusedDate = _selectedDate;
               },
             );
           },
