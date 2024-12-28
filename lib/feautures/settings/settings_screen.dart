@@ -34,7 +34,6 @@ class SettingsScreen extends StatelessWidget {
               ),
               child: Stack(
                 children: [
-                  // Контент с текстом и кнопкой
                   Padding(
                     padding: const EdgeInsets.only(top: 16, left: 16),
                     child: Column(

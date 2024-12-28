@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:habit_app/core/data/habits_provider.dart';
+import 'package:habit_app/core/di/locator.dart';
 import 'package:habit_app/core/domain/entities/habit/habit.dart';
-import 'package:habit_app/feautures/onboarding_screen/onboarding_screen.dart';
-import 'package:habit_app/feautures/navigation_screen/navigation.dart';
+import 'package:habit_app/feautures/splash_view.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   await Hive.initFlutter();
   Hive.registerAdapter(HabitAdapter());
   await Hive.openBox<Habit>('habits');
-  var box = await Hive.openBox('app_settings');
+  await ServiceLocator.setup();
 
-  bool isFirstLaunch = box.get('isFirstLaunch', defaultValue: true);
   runApp(
     MultiProvider(
       providers: [
@@ -22,21 +23,18 @@ void main() async {
           create: (_) => HabitProvider(),
         ),
       ],
-      child: MyApp(
-        isFirstLaunch: isFirstLaunch,
-      ),
+      child: const MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  final bool isFirstLaunch;
-  const MyApp({super.key, required this.isFirstLaunch});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: isFirstLaunch ? OnboardingScreen() : const BottomNavBar(),
+      home: const SplashScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
